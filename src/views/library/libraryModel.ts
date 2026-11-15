@@ -94,8 +94,7 @@ export const filterLibraryGames = ({
   const effectiveSort: LibrarySort['id'] =
     filter === 'recent' && sort === DEFAULT_LIBRARY_SORT ? 'recent' : sort;
 
-  const sortKey = sortKeys[effectiveSort];
-
+  const sortKey = effectiveSort === 'az' ? null : sortKeys[effectiveSort];
   const compareGames = sortKey
     ? (first: Game, second: Game) => sortKey(second) - sortKey(first) || compareTitles(first, second)
     : compareTitles;
@@ -127,7 +126,7 @@ export const countLibraryGames = ({
 }): LibraryCounts =>
   games.reduce<LibraryCounts>(
     (counts, game) => {
-      const stats = gameStats[game.id] ?? {};
+      const stats: Partial<GameStats> = gameStats[game.id] ?? {};
       return {
         bySystem: {
           ...counts.bySystem,
