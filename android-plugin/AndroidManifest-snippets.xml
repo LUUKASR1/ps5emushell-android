@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Trechos para colar em android/app/src/main/AndroidManifest.xml
+  DEPOIS de rodar `npx cap add android`.
+
+  Nada aqui pede root. As permissões foram escolhidas para o mínimo necessário
+  ao launcher; a única "sensível" é PACKAGE_USAGE_STATS, que exige que o usuário
+  habilite o acesso manualmente em Configurações do Android (o sistema não
+  concede por prompt).
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Necessária para detectar se o emulador ainda está em primeiro plano.
+         Sem ela o launcher não sabe quando o jogo terminou. -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Encerrar o emulador ao segurar Create+Options -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
+    <!-- Vibração do controle -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Mantém a tela ligada durante o jogo -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Leitura da biblioteca de ROMs em armazenamento compartilhado.
+         No Android 13+ o ideal é usar o Storage Access Framework em vez destas,
+         mas o FileProvider abaixo já cobre o caso de pastas escolhidas pelo
+         usuário via seletor de diretório. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <application>
+
+        <!-- Dentro de <application>, junto com a activity do Capacitor -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+    <!-- Dentro da <activity> do MainActivity -->
+    <!--
+        android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|keyboard|navigation|uiMode"
+        android:screenOrientation="landscape"
+        android:launchMode="singleTask"
+    -->
+
+</manifest>

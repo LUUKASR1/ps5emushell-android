@@ -1,0 +1,486 @@
+/**
+ * PS5 Emu Shell — Android Global Styles
+ *
+ * Dark theme inspired by PlayStation 5 UI, adapted for AYN Odin 2 Portal.
+ * Uses CSS custom properties for theming and responsive scaling.
+ */
+
+:root {
+  /* Color palette — deep navy/slate (not purple/indigo) */
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-elevated: #1c2333;
+  --bg-overlay: rgba(13, 17, 23, 0.92);
+
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+
+  --accent: #2f81f7;
+  --accent-hover: #58a6ff;
+  --accent-glow: rgba(47, 129, 247, 0.25);
+
+  --border: #30363d;
+  --border-active: #58a6ff;
+
+  --success: #3fb950;
+  --warning: #d29922;
+  --danger: #f85149;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+
+  /* Tile dimensions (home row) */
+  --tile-size: 140px;
+  --tile-gap: 12px;
+}
+
+/* ─── Reset & Base ──────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  cursor: default;
+}
+
+/* Hide cursor on touch devices / gamepad navigation */
+.cursor-hidden, .cursor-hidden * {
+  cursor: none !important;
+}
+
+/* ─── App Shell ─────────────────────────────────────────────────────────────── */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.views-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.view {
+  position: absolute;
+  inset: 0;
+  padding: var(--space-lg);
+  overflow-y: auto;
+}
+
+.view.hidden {
+  display: none;
+}
+
+/* ─── Topbar ────────────────────────────────────────────────────────────────── */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 var(--space-lg);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  margin-right: var(--space-xl);
+}
+
+.brand-mark {
+  display: flex;
+  gap: 3px;
+}
+
+.brand-mark i {
+  display: block;
+  width: 6px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.brand-mark i:nth-child(2) { height: 14px; opacity: 0.8; }
+.brand-mark i:nth-child(3) { height: 22px; }
+.brand-mark i:nth-child(4) { height: 10px; opacity: 0.6; }
+
+.tabs {
+  display: flex;
+  gap: var(--space-xs);
+  flex: 1;
+}
+
+.tab {
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+.tab.active {
+  color: var(--text-primary);
+  background: var(--accent);
+}
+
+.tab.focusable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.top-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-left: auto;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.icon-btn:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.icon-btn.focusable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.battery {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.battery.hidden {
+  display: none;
+}
+
+.bat-bar {
+  width: 24px;
+  height: 10px;
+  border: 1px solid var(--text-muted);
+  border-radius: 3px;
+  padding: 1px;
+  position: relative;
+}
+
+.bat-bar::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 3px;
+  width: 2px;
+  height: 4px;
+  background: var(--text-muted);
+  border-radius: 0 1px 1px 0;
+}
+
+.bat-bar i {
+  display: block;
+  height: 100%;
+  background: var(--success);
+  border-radius: 1px;
+  transition: width var(--duration-normal) var(--ease-out);
+}
+
+.clock {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.pad-indicator {
+  font-size: 16px;
+}
+
+/* ─── Boot Screen ───────────────────────────────────────────────────────────── */
+
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: bootFadeOut 0.6s var(--ease-out) 1.8s forwards;
+}
+
+.boot-logo {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.shape {
+  display: block;
+  background: var(--accent);
+  border-radius: 4px;
+  animation: bootPulse 1.2s var(--ease-out) infinite alternate;
+}
+
+.s1 { width: 12px; height: 40px; animation-delay: 0s; }
+.s2 { width: 12px; height: 56px; animation-delay: 0.15s; opacity: 0.85; }
+.s3 { width: 12px; height: 48px; animation-delay: 0.3s; }
+.s4 { width: 12px; height: 32px; animation-delay: 0.45s; opacity: 0.7; }
+
+@keyframes bootPulse {
+  from { transform: scaleY(1); opacity: 0.7; }
+  to { transform: scaleY(1.15); opacity: 1; }
+}
+
+@keyframes bootFadeOut {
+  to { opacity: 0; pointer-events: none; }
+}
+
+/* ─── Launch Overlay ────────────────────────────────────────────────────────── */
+
+.launch-layer {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+  backdrop-filter: blur(12px);
+}
+
+.launch-art {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  margin-bottom: var(--space-lg);
+}
+
+.launch-info {
+  text-align: center;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto var(--space-md);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.launch-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.launch-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ─── Placeholder Views ─────────────────────────────────────────────────────── */
+
+.home-placeholder,
+.lib-placeholder,
+.coll-placeholder,
+.tr-placeholder,
+.set-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.home-placeholder h1,
+.lib-placeholder h1,
+.coll-placeholder h1,
+.tr-placeholder h1,
+.set-placeholder h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.home-placeholder p,
+.lib-placeholder p,
+.coll-placeholder p,
+.tr-placeholder p,
+.set-placeholder p {
+  font-size: 15px;
+  max-width: 400px;
+}
+
+.hint {
+  margin-top: var(--space-md);
+  font-size: 13px !important;
+  color: var(--text-muted) !important;
+  font-style: italic;
+}
+
+/* ─── Tema claro ───────────────────────────────────────────────────────────── */
+
+:root[data-theme='light'] {
+  --bg-primary: #f4f5f7;
+  --bg-secondary: #ffffff;
+  --bg-elevated: #e9ebef;
+  --bg-overlay: rgba(244, 245, 247, 0.94);
+
+  --text-primary: #11151a;
+  --text-secondary: #556070;
+  --text-muted: #8b95a3;
+
+  --accent: #1f6feb;
+  --accent-hover: #1554b8;
+  --accent-glow: rgba(31, 111, 235, 0.18);
+
+  --border: #d6dae0;
+  --border-active: #1f6feb;
+
+  color-scheme: light;
+}
+
+/* No tema claro o anel de foco branco some no fundo — usa escuro. */
+:root[data-theme='light'] .nav-focus,
+:root[data-theme='light'] .set-system.sel,
+:root[data-theme='light'] .game-card.sel,
+:root[data-theme='light'] .tile.sel {
+  outline-color: #11151a;
+  border-color: #11151a;
+}
+
+/* ─── Utility Classes ───────────────────────────────────────────────────────── */
+
+.hidden {
+  display: none !important;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+}
+
+.focusable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ─── Responsive Scaling for AYN Odin 2 Portal (1080x1920 portrait) ─────────── */
+
+@media (max-width: 600px) {
+  :root {
+    --tile-size: 100px;
+    --tile-gap: 8px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+  }
+
+  .topbar {
+    height: 48px;
+    padding: 0 var(--space-md);
+  }
+
+  .tab {
+    font-size: 12px;
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .brand-mark i {
+    width: 4px;
+  }
+
+  .s1 { height: 28px; }
+  .s2 { height: 40px; }
+  .s3 { height: 34px; }
+  .s4 { height: 22px; }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --tile-size: 180px;
+    --tile-gap: 16px;
+  }
+}

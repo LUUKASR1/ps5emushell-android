@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Coloque em android/app/src/main/res/xml/file_paths.xml
+
+  O FileProvider converte um caminho de ROM em content:// para entregar ao
+  emulador com FLAG_GRANT_READ_URI_PERMISSION. Sem isso, apps alvo com
+  targetSdk 30+ não conseguem abrir um file:// puro.
+
+  As raízes listadas cobrem os locais onde ROMs costumam ficar no Odin 2 Portal.
+  Ajuste/expanda conforme as pastas que você usa.
+-->
+<paths>
+    <!-- Armazenamento primário compartilhado: /storage/emulated/0/roms/... -->
+    <external-path name="shared_roms" path="." />
+
+    <!-- Cartão SD: /storage/XXXX-XXXX/roms/... -->
+    <external-path name="sdcard" path="." />
+
+    <!-- Área privada do app, caso o usuário mova a biblioteca para lá -->
+    <files-path name="internal_files" path="." />
+    <cache-path name="internal_cache" path="." />
+
+    <!-- Raiz de armazenamento visível ao app (Android 11+) -->
+    <root-path name="storage_root" path="/storage/" />
+</paths>
